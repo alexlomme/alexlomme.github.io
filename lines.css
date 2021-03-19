@@ -1,0 +1,141 @@
+body {
+    margin: 0;
+}
+
+.main_block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.button_1 {
+    margin: 5px;
+
+    height: 30px;
+    width: 90px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #1499e0;
+
+    color: white;
+    font-size: 11px;
+    font-family: "Montserrat", sans-serif;
+}
+
+@media screen and (min-width: 600px) and (max-width: 1151px) {
+    .button_1 {
+        height: 40px;
+        width: 120px;
+
+        border-radius: 14px;
+
+        font-size: 16px;
+    }
+}
+
+@media screen and (min-width: 1151px) {
+    .button_1 {
+        height: 60px;
+        width: 180px;
+
+        border-radius: 20px;
+
+        font-size: 23px;
+    }
+}
+
+.button_1:focus {
+    outline: none;
+}
+
+.button_1:hover {
+    background: #73efff;
+}
+
+.button_1:active {
+    background: #b3faff;
+}
+
+#draw_space {
+}
+
+.panel {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.square {
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: 1px;
+    margin-bottom: 2px;
+}
+
+.colour {
+    height: 25px;
+    width: 25px;
+
+    opacity: 0.5;
+
+    border: 1px solid white;
+}
+
+.black-colour {
+    background-color: black;
+}
+
+.red-colour {
+    background-color: red;
+}
+
+.blue-colour {
+    background-color: blue;
+}
+
+.green-colour {
+    background-color: green;
+}
+
+.yellow-colour {
+    background-color: yellow;
+}
+
+.panels {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.released {
+    display: flex;
+}
+
+.dot-size-panel {
+
+}
+
+.dot-size {
+    border: 1px solid black;
+}
+
+.chosen {
+    border: 1px solid #00ff0d;
+
+    opacity: 1;
+}
+
+.description {
+    margin-left: 4px;
+
+    color: black;
+    font-size: 12px;
+    font-family: "Montserrat", sans-serif;
+}

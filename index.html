@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editor</title>
+    <link rel="stylesheet" type="text/css" href="lines.css">
+    <link rel="preconnect" href="https://fonts.google.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="main_block">
+    <div id="panels" class="panels">
+        <span class="description">толщина</span>
+        <div id="dot-size-panel" class="panel dot-size-panel">
+            <svg class="dot-size square chosen" data-size="1" height="25px" width="25px" xmlns="http://www.w3.org/2000/svg">
+                <circle class="circle" r="1" fill="black" cx="13" cy="13"></circle>
+            </svg>
+            <svg class="dot-size square" data-size="2" height="25px" width="25px" xmlns="http://www.w3.org/2000/svg">
+                <circle class="circle" r="2" fill="black" cx="13" cy="13"></circle>
+            </svg>
+            <svg class="dot-size square" data-size="3" height="25px" width="25px" xmlns="http://www.w3.org/2000/svg">
+                <circle class="circle" r="3" fill="black" cx="13" cy="13"></circle>
+            </svg>
+            <svg class="dot-size square" data-size="4" height="25px" width="25px" xmlns="http://www.w3.org/2000/svg">
+                <circle class="circle" r="4" fill="black" cx="13" cy="13"></circle>
+            </svg>
+            <svg class="dot-size square" data-size="5" height="25px" width="25px" xmlns="http://www.w3.org/2000/svg">
+                <circle class="circle" r="5" fill="black" cx="13" cy="13"></circle>
+            </svg>
+        </div>
+        <span class="description">цвет</span>
+        <div id="colours-panel" class="panel colours-panel">
+            <div data-colour="black" class="colour black-colour square chosen"></div>
+            <div data-colour="red" class="colour red-colour square"></div>
+            <div data-colour="blue" class="colour blue-colour square"></div>
+            <div data-colour="yellow" class="colour yellow-colour square"></div>
+            <div data-colour="green" class="colour green-colour square"></div>
+        </div>
+    </div>
+    <button class="button_1" id="button_1">Turn on</button>
+</div>
+<canvas id="draw_space" height="500px" style="border: 1px solid black;">
+</canvas>
+<script src="lines.js"></script>
+</body>
+</html>
