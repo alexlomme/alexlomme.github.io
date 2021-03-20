@@ -3,7 +3,7 @@ var context = myCanvas.getContext('2d');
 var pressed = false;
 var button1 = document.querySelector("#button_1");
 var colour;
-var colourPanel = document.querySelector("#colours-panel");
+var colourPanel = document.getElementById("colours-panel");
 var sizePanel = document.querySelector("#dot-size-panel");
 var dotSize;
 
