@@ -6,7 +6,7 @@ var colour;
 var colourPanel = document.querySelector("#colours-panel");
 var sizePanel = document.querySelector("#dot-size-panel");
 var dotSize;
-var radius = document.querySelector(".dot-size.chosen circle").getAttribute("r");
+var radius = document.querySelector(".dot-size.chosen").dataset.size;
 
 myCanvas.width = document.body.clientWidth;
 
@@ -17,8 +17,9 @@ button1.addEventListener('click', buttonState, false);
 colourPanel.addEventListener('click', chooseColour, false);
 sizePanel.addEventListener('click', chooseSize, false);
 
-context.strokeStyle = document.querySelector(".colour.chosen").dataset.colour;
-context.fillStyle = document.querySelector(".colour.chosen").dataset.colour;
+var myColour = document.querySelector(".colour.chosen").dataset.colour;
+context.strokeStyle = myColour;
+context.fillStyle = myColour;
 
 function buttonState(e) {
     if (!pressed) {
@@ -54,8 +55,9 @@ function chooseColour(e) {
     colour = e.target;
 
     colour.classList.add("chosen");
-    context.strokeStyle = colour.dataset.colour;
-    context.fillStyle = colour.dataset.colour;
+    myColour = colour.dataset.colour;
+    context.strokeStyle = myColour;
+    context.fillStyle = myColour;
 }
 
 function chooseSize(e) {
