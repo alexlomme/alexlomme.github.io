@@ -6,6 +6,7 @@ var colour;
 var colourPanel = document.querySelector("#colours-panel");
 var sizePanel = document.querySelector("#dot-size-panel");
 var dotSize;
+var radius = document.querySelector(".dot-size.chosen").dataset.size;
 
 myCanvas.width = document.body.clientWidth;
 
@@ -16,9 +17,9 @@ button1.addEventListener('click', buttonState, false);
 colourPanel.addEventListener('click', chooseColour, false);
 sizePanel.addEventListener('click', chooseSize, false);
 
-var radius = 1;
-context.strokeStyle = "#000000";
-context.fillStyle = "#000000";
+var myColour = document.querySelector(".colour.chosen").dataset.colour;
+context.strokeStyle = myColour;
+context.fillStyle = myColour;
 
 function buttonState(e) {
     if (!pressed) {
@@ -47,15 +48,16 @@ function chooseColour(e) {
     if (e.target.closest(".colour") === null) return;
 
     if (!colour) {
-        colour = document.querySelector(".colour");
+        colour = document.querySelector(".colour.chosen");
     }
 
     colour.classList.remove("chosen");
     colour = e.target;
 
     colour.classList.add("chosen");
-    context.strokeStyle = colour.dataset.colour;
-    context.fillStyle = colour.dataset.colour;
+    myColour = colour.dataset.colour;
+    context.strokeStyle = myColour;
+    context.fillStyle = myColour;
 }
 
 function chooseSize(e) {
@@ -64,7 +66,7 @@ function chooseSize(e) {
     if (parentSquare === null) return;
 
     if (!dotSize) {
-        dotSize = document.querySelector(".dot-size");
+        dotSize = document.querySelector(".dot-size.chosen");
     }
 
     dotSize.classList.remove("chosen");
