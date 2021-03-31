@@ -7,10 +7,13 @@ var colourPanel = document.querySelector("#colours-panel");
 var sizePanel = document.querySelector("#dot-size-panel");
 var dotSize;
 var radius = document.querySelector(".dot-size.chosen").dataset.size;
+var mousePressed = false;
 
 myCanvas.width = document.body.clientWidth;
 
-myCanvas.addEventListener('click', drawPoint, false);
+myCanvas.addEventListener('mousedown', drawPoint, false);
+myCanvas.addEventListener('mousemove', drawLine, false);
+document.addEventListener('mouseup', stopDrawing, false);
 
 button1.addEventListener('click', buttonState, false);
 
@@ -41,7 +44,25 @@ function drawPoint(e) {
         context.closePath();
         context.stroke();
         context.fill();
+        context.beginPath();
+        context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
+        context.lineWidth = 2 * radius;
+        mousePressed = true;
     }
+}
+
+function drawLine(e) {
+    if (pressed && mousePressed) {
+        context.lineTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
+        context.stroke();
+    }
+}
+
+function stopDrawing(e) {
+    context.closePath();
+    mousePressed = false;
+    context.lineWidth = 1;
+
 }
 
 function chooseColour(e) {
@@ -73,6 +94,5 @@ function chooseSize(e) {
     dotSize = parentSquare;
     dotSize.classList.add("chosen");
     radius = dotSize.dataset.size;
-
 }
 
