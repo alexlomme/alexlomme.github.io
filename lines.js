@@ -9,17 +9,10 @@ var dotSize;
 var radius = document.querySelector(".dot-size.chosen").dataset.size;
 var mousePressed = false;
 var projectHistory = [];
-var historyBack = document.querySelector("#history-backward");
-var historyForward = document.querySelector("#history-forward");
-var historyChanges = 0;
-var currentIndex = historyChanges;
+var historyBack = document.querySelector(".history-button");
+var historyForward = document.querySelectorAll(".history-button")[1];
+var currentIndex = 0;
 var isOut;
-var lastX;
-var lastY;
-
-var emptyCanvas = new Image();
-emptyCanvas.src = myCanvas.toDataURL();  //?????
-projectHistory.push(emptyCanvas);
 
 myCanvas.width = document.body.clientWidth;
 
@@ -56,9 +49,9 @@ function buttonState(e) {
 
 function startDraw(e) {
     if (pressed) {
-        if (currentIndex !== historyChanges) {
-            projectHistory.splice(currentIndex + 1);
-            historyChanges = currentIndex;
+        if (currentIndex !== 0) {
+            projectHistory.splice(0, currentIndex);
+            currentIndex = 0;
         }
         drawPoint(radius, e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
         context.beginPath();
@@ -74,23 +67,15 @@ function drawLine(e) {
             context.lineTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
             context.stroke();
         }
-        else
-            if (e.target !== myCanvas && isOut === false) {
-                /*let k = (e.pageY - myCanvas.offsetTop - lastY)/(e.pageX - myCanvas.offsetLeft - lastX);
-                let b = lastY - k * lastX;
-                context.lineTo((myCanvas.offsetTop - b)/k, myCanvas.offsetTop + 1);*/
-                context.closePath();
-                isOut = true;
-            }
-            else
-                if (e.target === myCanvas && isOut === true) {
-                    isOut = false;
-                    context.beginPath();
-                    context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
-                }
+        else if (e.target !== myCanvas && isOut === false) {
+            context.closePath();
+            isOut = true;
+        } else if (e.target === myCanvas && isOut === true) {
+            isOut = false;
+            context.beginPath();
+            context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
+        }
         drawPoint(radius, e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
-        lastX = e.pageX - myCanvas.offsetLeft;
-        lastY = e.pageY - myCanvas.offsetTop;
     }
 }
 
@@ -99,11 +84,7 @@ function stopDrawing(e) {
         context.closePath();
         mousePressed = false;
         isOut = false;
-        var historyImage = new Image();
-        historyImage.src = myCanvas.toDataURL();
-        projectHistory.push(historyImage);
-        historyChanges += 1;
-        currentIndex = historyChanges;
+        projectHistory.unshift(context.getImageData(0, 0, myCanvas.width, myCanvas.height));
     }
 }
 
@@ -140,36 +121,43 @@ function chooseSize(e) {
 }
 
 function turnBack(e) {
-    if (currentIndex !== 0) {
+    if (currentIndex === projectHistory.length - 1) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        currentIndex -= 1;
-        context.drawImage(projectHistory[currentIndex], 0, 0);
+        currentIndex += 1;
     }
+
+    if (currentIndex < projectHistory.length - 1) {
+        context.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        currentIndex += 1;
+        context.putImageData(projectHistory[currentIndex], 0, 0);
+    }
+    alert(currentIndex);
 }
 
 function turnForward(e) {
-    if (currentIndex !== historyChanges) {
+    if (currentIndex !== 0) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        currentIndex += 1;
-        context.drawImage(projectHistory[currentIndex], 0, 0);
+        currentIndex -= 1;
+        context.putImageData(projectHistory[currentIndex], 0, 0);
     }
 }
 
 function drawPoint(r, x, y) {
     context.fillRect(x - 1, y - 1, 2, 2);
-    if (r > 1) {
-        context.fillRect(x - r, y - 1, 2 * r, 2);
-        context.fillRect(x - 1, y - r, 2, 2 * r);
+    if (Number(r) > 1) {
+        let rad = Number(r);
+        context.fillRect(x - rad, y - 1, 2 * rad, 2);
+        context.fillRect(x - 1, y - rad, 2, 2 * rad);
         if (r === "3") {
-            context.fillRect(x - r, y - r + 1, 6, 4);
-            context.fillRect(x - r + 1, y - r, 4, 6);
+            context.fillRect(x - rad, y - rad + 1, 6, 4);
+            context.fillRect(x - rad + 1, y - rad, 4, 6);
         }
         if (r === "4") {
-            context.fillRect(x - r + 1, y - r + 1, 6, 6);
+            context.fillRect(x - rad + 1, y - rad + 1, 6, 6);
         }
         if (r === "5") {
-            context.fillRect(x - r + 1, y - r + 2, 8, 6);
-            context.fillRect(x - r + 2, y - r + 1, 6, 8);
+            context.fillRect(x - rad + 1, y - rad + 2, 8, 6);
+            context.fillRect(x - rad + 2, y - rad + 1, 6, 8);
         }
     }
 }
