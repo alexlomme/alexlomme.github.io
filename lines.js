@@ -9,8 +9,8 @@ var dotSize;
 var radius = document.querySelector(".dot-size.chosen").dataset.size;
 var mousePressed = false;
 var projectHistory = [];
-var historyBack = document.querySelector(".history-button");
-var historyForward = document.querySelectorAll(".history-button")[1];
+var historyBack = document.querySelector(".history-button.backward");
+var historyForward = document.querySelector(".history-button.forward");
 var currentIndex = 0;
 var isOut;
 
@@ -63,14 +63,17 @@ function startDraw(e) {
 
 function drawLine(e) {
     if (pressed && mousePressed) {
-        if (e.target === myCanvas && isOut === false) {
-            context.lineTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
-            context.stroke();
+        if (isOut === false) {
+            if (e.target === myCanvas) {
+                context.lineTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
+                context.stroke();
+            }
+            else {
+                context.closePath();
+                isOut = true;
+            }
         }
-        else if (e.target !== myCanvas && isOut === false) {
-            context.closePath();
-            isOut = true;
-        } else if (e.target === myCanvas && isOut === true) {
+        else if (e.target === myCanvas) {
             isOut = false;
             context.beginPath();
             context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
@@ -121,17 +124,12 @@ function chooseSize(e) {
 }
 
 function turnBack(e) {
-    if (currentIndex === projectHistory.length - 1) {
-        context.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        currentIndex += 1;
-    }
+    context.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    currentIndex += 1;
 
-    if (currentIndex < projectHistory.length - 1) {
-        context.clearRect(0, 0, myCanvas.width, myCanvas.height);
-        currentIndex += 1;
+    if (currentIndex <= projectHistory.length - 1) {
         context.putImageData(projectHistory[currentIndex], 0, 0);
     }
-    alert(currentIndex);
 }
 
 function turnForward(e) {
@@ -144,8 +142,8 @@ function turnForward(e) {
 
 function drawPoint(r, x, y) {
     context.fillRect(x - 1, y - 1, 2, 2);
-    if (Number(r) > 1) {
-        let rad = Number(r);
+    let rad = Number(r);
+    if (rad > 1) {
         context.fillRect(x - rad, y - 1, 2 * rad, 2);
         context.fillRect(x - 1, y - rad, 2, 2 * rad);
         if (r === "3") {
