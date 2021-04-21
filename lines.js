@@ -19,6 +19,7 @@ myCanvas.width = document.body.clientWidth;
 myCanvas.addEventListener('mousedown', startDraw, false);
 document.addEventListener('mousemove', drawLine, false);
 document.addEventListener('mouseup', stopDrawing, false);
+document.addEventListener('keydown', buttonState, false);
 
 button1.addEventListener('click', buttonState, false);
 
@@ -34,17 +35,17 @@ context.fillStyle = myColour;
 context.lineWidth = 2 * radius;
 
 function buttonState(e) {
-    if (!pressed) {
-        pressed = true;
-        button1.innerHTML = "Turn off";
-        document.getElementById("panels").classList.add("released");
-    }
-    else {
-        pressed = false;
-        button1.innerHTML = "Turn on";
-        document.getElementById("panels").classList.remove("released");
-    }
-
+    //if (e.type === 'click' || e.key === 'Space') {
+        if (!pressed) {
+            pressed = true;
+            button1.innerHTML = "Turn off";
+            document.getElementById("panels").classList.add("released");
+        } else {
+            pressed = false;
+            button1.innerHTML = "Turn on";
+            document.getElementById("panels").classList.remove("released");
+        }
+    //}
 }
 
 function startDraw(e) {
@@ -53,7 +54,7 @@ function startDraw(e) {
             projectHistory.splice(0, currentIndex);
             currentIndex = 0;
         }
-        drawPoint(radius, e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
+        drawPoint(Number(radius), e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
         context.beginPath();
         context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
         mousePressed = true;
@@ -67,18 +68,16 @@ function drawLine(e) {
             if (e.target === myCanvas) {
                 context.lineTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
                 context.stroke();
-            }
-            else {
+            } else {
                 context.closePath();
                 isOut = true;
             }
-        }
-        else if (e.target === myCanvas) {
+        } else if (e.target === myCanvas) {
             isOut = false;
             context.beginPath();
             context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
         }
-        drawPoint(radius, e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
+        drawPoint(Number(radius), e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
     }
 }
 
@@ -140,20 +139,19 @@ function turnForward(e) {
     }
 }
 
-function drawPoint(r, x, y) {
+function drawPoint(rad, x, y) {
     context.fillRect(x - 1, y - 1, 2, 2);
-    let rad = Number(r);
     if (rad > 1) {
         context.fillRect(x - rad, y - 1, 2 * rad, 2);
         context.fillRect(x - 1, y - rad, 2, 2 * rad);
-        if (r === "3") {
+        if (rad === 3) {
             context.fillRect(x - rad, y - rad + 1, 6, 4);
             context.fillRect(x - rad + 1, y - rad, 4, 6);
         }
-        if (r === "4") {
+        if (rad === 4) {
             context.fillRect(x - rad + 1, y - rad + 1, 6, 6);
         }
-        if (r === "5") {
+        if (rad === 5) {
             context.fillRect(x - rad + 1, y - rad + 2, 8, 6);
             context.fillRect(x - rad + 2, y - rad + 1, 6, 8);
         }
