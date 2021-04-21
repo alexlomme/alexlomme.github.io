@@ -19,7 +19,7 @@ myCanvas.width = document.body.clientWidth;
 myCanvas.addEventListener('mousedown', startDraw, false);
 document.addEventListener('mousemove', drawLine, false);
 document.addEventListener('mouseup', stopDrawing, false);
-document.addEventListener('keydown', buttonState, false);
+window.addEventListener('keydown', keyPressed, false);
 
 button1.addEventListener('click', buttonState, false);
 
@@ -35,7 +35,6 @@ context.fillStyle = myColour;
 context.lineWidth = 2 * radius;
 
 function buttonState(e) {
-    if (e.type === 'click' || e.key === 'Space') {
         if (!pressed) {
             pressed = true;
             button1.innerHTML = "Turn off";
@@ -45,7 +44,6 @@ function buttonState(e) {
             button1.innerHTML = "Turn on";
             document.getElementById("panels").classList.remove("released");
         }
-    }
 }
 
 function startDraw(e) {
@@ -155,5 +153,13 @@ function drawPoint(rad, x, y) {
             context.fillRect(x - rad + 1, y - rad + 2, 8, 6);
             context.fillRect(x - rad + 2, y - rad + 1, 6, 8);
         }
+    }
+}
+
+function keyPressed(e) {
+    switch(e.keyCode) {
+        case 32:
+            buttonState(e);
+            break;
     }
 }
