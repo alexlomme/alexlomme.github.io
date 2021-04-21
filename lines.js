@@ -35,7 +35,7 @@ context.fillStyle = myColour;
 context.lineWidth = 2 * radius;
 
 function buttonState(e) {
-    //if (e.type === 'click' || e.key === 'Space') {
+    if (e.type === 'click' || e.key === 'Space') {
         if (!pressed) {
             pressed = true;
             button1.innerHTML = "Turn off";
@@ -45,7 +45,7 @@ function buttonState(e) {
             button1.innerHTML = "Turn on";
             document.getElementById("panels").classList.remove("released");
         }
-    //}
+    }
 }
 
 function startDraw(e) {
