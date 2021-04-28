@@ -21,7 +21,7 @@ document.addEventListener('mousemove', drawLine, false);
 document.addEventListener('mouseup', stopDrawing, false);
 window.addEventListener('keydown', keyPressed, false);
 
-button1.addEventListener('click', buttonState, false);
+button1.addEventListener('click', toggleButtonState, false);
 
 colourPanel.addEventListener('click', chooseColour, false);
 sizePanel.addEventListener('click', chooseSize, false);
@@ -34,7 +34,7 @@ context.strokeStyle = myColour;
 context.fillStyle = myColour;
 context.lineWidth = 2 * radius;
 
-function buttonState(e) {
+function toggleButtonState(e) {
         if (!pressed) {
             pressed = true;
             button1.innerHTML = "Turn off";
@@ -121,11 +121,13 @@ function chooseSize(e) {
 }
 
 function turnBack(e) {
-    context.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    currentIndex += 1;
+    if (currentIndex < projectHistory.length) {
+        context.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        currentIndex += 1;
 
-    if (currentIndex <= projectHistory.length - 1) {
-        context.putImageData(projectHistory[currentIndex], 0, 0);
+        if (currentIndex <= projectHistory.length - 1) {
+            context.putImageData(projectHistory[currentIndex], 0, 0);
+        }
     }
 }
 
@@ -157,9 +159,9 @@ function drawPoint(rad, x, y) {
 }
 
 function keyPressed(e) {
-    switch(e.keyCode) {
-        case 32:
-            buttonState(e);
+    switch(e.code) {
+        case "KeyL":
+            toggleButtonState(e);
             break;
     }
 }
