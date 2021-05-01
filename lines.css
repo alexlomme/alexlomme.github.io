@@ -139,3 +139,16 @@ body {
     font-size: 12px;
     font-family: "Montserrat", sans-serif;
 }
+
+.permament-tools {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.history-button {
+    height: 25px;
+    width: 25px;
+    margin-right: 5px;
+    border: 1px solid black;
+}
