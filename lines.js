@@ -52,6 +52,9 @@ function startDraw(e) {
             projectHistory.splice(0, currentIndex);
             currentIndex = 0;
         }
+        if (historyForward.classList.contains("activated") === true) {
+            historyForward.classList.remove("activated");
+        }
         drawPoint(Number(radius), e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
         context.beginPath();
         context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
@@ -85,6 +88,9 @@ function stopDrawing(e) {
         mousePressed = false;
         isOut = false;
         projectHistory.unshift(context.getImageData(0, 0, myCanvas.width, myCanvas.height));
+        if (projectHistory.length === 1) {
+            historyBack.classList.add("activated");
+        }
     }
 }
 
@@ -121,21 +127,35 @@ function chooseSize(e) {
 }
 
 function turnBack(e) {
-    if (currentIndex < projectHistory.length) {
+    if (currentIndex < projectHistory.length && historyBack.classList.contains("activated") === true) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
         currentIndex += 1;
 
         if (currentIndex <= projectHistory.length - 1) {
             context.putImageData(projectHistory[currentIndex], 0, 0);
         }
+
+        if (currentIndex === 1) {
+            historyForward.classList.add("activated");
+        }
+
+        if (currentIndex === projectHistory.length) {
+            historyBack.classList.remove("activated");
+        }
     }
 }
 
 function turnForward(e) {
-    if (currentIndex !== 0) {
+    if (currentIndex !== 0 && historyForward.classList.contains("activated") === true) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
         currentIndex -= 1;
         context.putImageData(projectHistory[currentIndex], 0, 0);
+        if (currentIndex === projectHistory.length - 1) {
+            historyBack.classList.add("activated");
+        }
+        if (currentIndex === 0) {
+            historyForward.classList.remove("activated");
+        }
     }
 }
 
