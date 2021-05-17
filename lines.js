@@ -70,9 +70,6 @@ function startDraw(e) {
             projectHistory.splice(0, currentIndex);
             currentIndex = 0;
         }
-        /*if (historyForward.classList.contains("activated") === true) {
-            historyForward.classList.remove("activated");
-        }*/
         historyBack.buttonAppearance();
         historyForward.buttonAppearance();
         drawPoint(Number(radius), e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
@@ -157,14 +154,6 @@ function turnBack(e) {
 
         historyBack.buttonAppearance();
         historyForward.buttonAppearance();
-
-        /*if (currentIndex === 1) {
-            historyForward.classList.add("activated");
-        }
-
-        if (currentIndex === projectHistory.length) {
-            historyBack.classList.remove("activated");
-        }*/
     }
 }
 
@@ -173,12 +162,6 @@ function turnForward(e) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
         currentIndex -= 1;
         context.putImageData(projectHistory[currentIndex], 0, 0);
-        /*if (currentIndex === projectHistory.length - 1) {
-            historyBack.classList.add("activated");
-        }
-        if (currentIndex === 0) {
-            historyForward.classList.remove("activated");
-        }*/
         historyBack.buttonAppearance();
         historyForward.buttonAppearance();
     }
