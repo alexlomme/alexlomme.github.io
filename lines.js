@@ -17,6 +17,7 @@ var isOut;
 var sliderPanel = document.querySelector(".slider-panel");
 var sliderPoint = document.querySelector(".slider-point");
 var sliding;
+var sizeCircle = document.querySelector(".size-circle");
 
 myCanvas.width = document.body.clientWidth;
 
@@ -182,6 +183,7 @@ function changeThickness(e) {
     if (sliding && e.pageX - sliderPanel.offsetLeft >= 5 && e.pageX - sliderPanel.offsetLeft < 96) {
         sliderPoint.setAttribute("cx", String(e.pageX - sliderPanel.offsetLeft));
         context.lineWidth = 2*(Math.round((e.pageX - sliderPanel.offsetLeft-5)*0.044*1000)/1000+1);
+        sizeCircle.setAttribute("r", String(context.lineWidth/2));
     }
 }
 
