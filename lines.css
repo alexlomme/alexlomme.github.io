@@ -164,3 +164,34 @@ body {
 
     border: 1px solid black;
 }
+
+.slider-panel {
+
+    height: 25px;
+    width: 100px;
+
+    margin-top: 1px;
+    margin-bottom: 2px;
+    margin-left: 4px;
+}
+
+.size-panel {
+    display: flex;
+    flex-direction: row;
+}
+
+.size-circle-area {
+    border: 1px solid black;
+
+    margin-top: 1px;
+    margin-bottom: 2px;
+    margin-left: 4px;
+
+    width: 25px;
+}
+
+.size-circle {
+
+}
+
+

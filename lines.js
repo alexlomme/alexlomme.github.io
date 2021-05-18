@@ -4,15 +4,21 @@ var pressed = false;
 var button1 = document.querySelector("#button_1");
 var colour;
 var colourPanel = document.querySelector("#colours-panel");
-var sizePanel = document.querySelector("#dot-size-panel");
-var dotSize;
-var radius = document.querySelector(".dot-size.chosen").dataset.size;
+//var sizePanel = document.querySelector("#dot-size-panel");
+//var dotSize;
+//var radius = document.querySelector(".dot-size.chosen").dataset.size;
+var radius = 1.0;
 var mousePressed = false;
 var projectHistory = [];
 var historyBack = document.querySelector(".history-button.backward");
 var historyForward = document.querySelector(".history-button.forward");
 var currentIndex = 0;
 var isOut;
+var sliderPanel = document.querySelector(".slider-panel");
+var sliderPoint = document.querySelector(".slider-point");
+var sliding;
+var sizeCircle = document.querySelector(".size-circle");
+var sliderLine = document.querySelector(".slider-line");
 
 myCanvas.width = document.body.clientWidth;
 
@@ -21,10 +27,15 @@ document.addEventListener('mousemove', drawLine, false);
 document.addEventListener('mouseup', stopDrawing, false);
 window.addEventListener('keydown', keyPressed, false);
 
+sliderPoint.addEventListener('mousedown', startChangingThickness, false);
+sliderPanel.addEventListener('mousemove', changeThickness, false);
+document.addEventListener('mouseup', stopChangingThickness, false);
+sliderPanel.addEventListener('click', changeThicknessRapid, false);
+
 button1.addEventListener('click', toggleButtonState, false);
 
 colourPanel.addEventListener('click', chooseColour, false);
-sizePanel.addEventListener('click', chooseSize, false);
+//sizePanel.addEventListener('click', chooseSize, false);
 
 historyBack.addEventListener('click', turnBack, false);
 historyForward.addEventListener('click', turnForward, false);
@@ -52,7 +63,7 @@ function startDraw(e) {
             projectHistory.splice(0, currentIndex);
             currentIndex = 0;
         }
-        drawPoint(Number(radius), e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
+        //drawPoint(Number(radius), e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
         context.beginPath();
         context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
         mousePressed = true;
@@ -75,7 +86,7 @@ function drawLine(e) {
             context.beginPath();
             context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
         }
-        drawPoint(Number(radius), e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
+        //drawPoint(Number(radius), e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
     }
 }
 
@@ -104,7 +115,7 @@ function chooseColour(e) {
     context.fillStyle = myColour;
 }
 
-function chooseSize(e) {
+/*function chooseSize(e) {
     var parentSquare = e.target.closest(".dot-size");
 
     if (parentSquare === null) return;
@@ -118,7 +129,7 @@ function chooseSize(e) {
     dotSize.classList.add("chosen");
     radius = dotSize.dataset.size;
     context.lineWidth = 2 * radius;
-}
+}*/
 
 function turnBack(e) {
     if (currentIndex < projectHistory.length) {
@@ -165,3 +176,27 @@ function keyPressed(e) {
             break;
     }
 }
+
+function startChangingThickness(e) {
+    sliding = true;
+}
+
+function changeThickness(e) {
+    if (sliding && e.pageX - sliderPanel.offsetLeft >= 5 && e.pageX - sliderPanel.offsetLeft < 96) {
+        sliderPoint.setAttribute("cx", String(e.pageX - sliderPanel.offsetLeft));
+        context.lineWidth = 2*(Math.round((e.pageX - sliderPanel.offsetLeft-5)*0.044*1000)/1000+1);
+        sizeCircle.setAttribute("r", String(context.lineWidth/2));
+    }
+}
+
+function stopChangingThickness(e) {
+    sliding = false;
+}
+
+function changeThicknessRapid(e) {
+    sliderPoint.setAttribute("cx", String(e.pageX - sliderPanel.offsetLeft));
+    context.lineWidth = 2*(Math.round((e.pageX - sliderPanel.offsetLeft-5)*0.044*1000)/1000+1);
+    sizeCircle.setAttribute("r", String(context.lineWidth/2));
+}
+
+
