@@ -18,6 +18,7 @@ var sliderPanel = document.querySelector(".slider-panel");
 var sliderPoint = document.querySelector(".slider-point");
 var sliding;
 var sizeCircle = document.querySelector(".size-circle");
+var sliderLine = document.querySelector(".slider-line");
 
 myCanvas.width = document.body.clientWidth;
 
@@ -29,6 +30,7 @@ window.addEventListener('keydown', keyPressed, false);
 sliderPoint.addEventListener('mousedown', startChangingThickness, false);
 sliderPanel.addEventListener('mousemove', changeThickness, false);
 document.addEventListener('mouseup', stopChangingThickness, false);
+sliderPanel.addEventListener('click', changeThicknessRapid, false);
 
 button1.addEventListener('click', toggleButtonState, false);
 
@@ -189,6 +191,12 @@ function changeThickness(e) {
 
 function stopChangingThickness(e) {
     sliding = false;
+}
+
+function changeThicknessRapid(e) {
+    sliderPoint.setAttribute("cx", String(e.pageX - sliderPanel.offsetLeft));
+    context.lineWidth = 2*(Math.round((e.pageX - sliderPanel.offsetLeft-5)*0.044*1000)/1000+1);
+    sizeCircle.setAttribute("r", String(context.lineWidth/2));
 }
 
 
