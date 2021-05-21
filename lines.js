@@ -12,8 +12,8 @@ var mousePressed = false;
 var projectHistory = [];
 var historyBack = document.querySelector(".history-button.backward");
 var historyForward = document.querySelector(".history-button.forward");
-var currentIndex = 0;
 var isOut;
+var currentIndex = 0;
 var sliderPanel = document.querySelector(".slider-panel");
 var sliderPoint = document.querySelector(".slider-point");
 var sliding;
@@ -21,6 +21,18 @@ var sizeCircle = document.querySelector(".size-circle");
 var sliderLine = document.querySelector(".slider-line");
 
 myCanvas.width = document.body.clientWidth;
+
+if (localStorage.getItem("history") !== null) {
+    projectHistory = JSON.parse(localStorage.getItem("history"));
+    currentIndex = localStorage.getItem("index");
+    var dataUrl = projectHistory[currentIndex];
+    var dataCanvas = new Image;
+    dataCanvas.src = dataUrl;
+    context.drawImage(dataCanvas, 0, 0);
+    alert("v");
+}
+
+localStorage.setItem("index", currentIndex);
 
 myCanvas.addEventListener('mousedown', startDraw, false);
 document.addEventListener('mousemove', drawLine, false);
@@ -95,7 +107,10 @@ function stopDrawing(e) {
         context.closePath();
         mousePressed = false;
         isOut = false;
-        projectHistory.unshift(context.getImageData(0, 0, myCanvas.width, myCanvas.height));
+        //projectHistory.unshift(context.getImageData(0, 0, myCanvas.width, myCanvas.height));
+        projectHistory.unshift(myCanvas.toDataURL());
+        //localStorage.setItem("canvas-data", myCanvas.toDataURL());
+        localStorage.setItem("history", JSON.stringify(projectHistory));
     }
 }
 
@@ -135,10 +150,14 @@ function turnBack(e) {
     if (currentIndex < projectHistory.length) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
         currentIndex += 1;
-
         if (currentIndex <= projectHistory.length - 1) {
-            context.putImageData(projectHistory[currentIndex], 0, 0);
+            var img = new Image();
+            img.src = projectHistory[currentIndex];
+            window.onload = function() {
+                context.drawImage(img, 0, 0);
+            }
         }
+        localStorage.setItem("index", currentIndex);
     }
 }
 
@@ -146,7 +165,10 @@ function turnForward(e) {
     if (currentIndex !== 0) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
         currentIndex -= 1;
-        context.putImageData(projectHistory[currentIndex], 0, 0);
+        var img = new Image();
+        img.src = projectHistory[currentIndex];
+        context.drawImage(img, 0, 0);
+        localStorage.setItem("index", currentIndex);
     }
 }
 
@@ -174,6 +196,8 @@ function keyPressed(e) {
         case "KeyL":
             toggleButtonState(e);
             break;
+        case "KeyC":
+            localStorage.clear();
     }
 }
 
