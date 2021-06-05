@@ -14,21 +14,19 @@ var historyForward = document.querySelector(".history-button.forward");
 var currentIndex = 0;
 var isOut;
 
-historyBack.buttonAppearance = function() {
-    if (currentIndex === projectHistory.length-1) {
-        this.classList.add("activated");
+function updateHistoryButtons() {
+    if (currentIndex >= 1 && !historyForward.classList.contains("activated")) {
+        historyForward.classList.add("activated");
     }
-    else if (currentIndex === projectHistory.length && this.classList.contains("activated")) {
-        this.classList.remove("activated");
+    if (currentIndex === 0 && historyForward.classList.contains("activated")) {
+        historyForward.classList.remove("activated");
     }
-}
 
-historyForward.buttonAppearance = function() {
-    if (currentIndex === 1 && !this.classList.contains("activated")) {
-        this.classList.add("activated");
+    if (currentIndex <= projectHistory.length-1) {
+        historyBack.classList.add("activated");
     }
-    else if (currentIndex === 0 && this.classList.contains("activated")) {
-        this.classList.remove("activated");
+    if (currentIndex === projectHistory.length && historyBack.classList.contains("activated")) {
+        historyBack.classList.remove("activated");
     }
 }
 
@@ -70,8 +68,6 @@ function startDraw(e) {
             projectHistory.splice(0, currentIndex);
             currentIndex = 0;
         }
-        historyBack.buttonAppearance();
-        historyForward.buttonAppearance();
         drawPoint(Number(radius), e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
         context.beginPath();
         context.moveTo(e.pageX - myCanvas.offsetLeft, e.pageY - myCanvas.offsetTop);
@@ -100,14 +96,12 @@ function drawLine(e) {
 }
 
 function stopDrawing(e) {
-    if (pressed === true && mousePressed === true) {
+    if (pressed && mousePressed) {
         context.closePath();
         mousePressed = false;
         isOut = false;
         projectHistory.unshift(context.getImageData(0, 0, myCanvas.width, myCanvas.height));
-        if (projectHistory.length === 1) {
-            historyBack.classList.add("activated");
-        }
+        updateHistoryButtons();
     }
 }
 
@@ -144,7 +138,7 @@ function chooseSize(e) {
 }
 
 function turnBack(e) {
-    if (currentIndex < projectHistory.length && historyBack.classList.contains("activated") === true) {
+    if (currentIndex < projectHistory.length && historyBack.classList.contains("activated")) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
         currentIndex += 1;
 
@@ -152,18 +146,16 @@ function turnBack(e) {
             context.putImageData(projectHistory[currentIndex], 0, 0);
         }
 
-        historyBack.buttonAppearance();
-        historyForward.buttonAppearance();
+        updateHistoryButtons();
     }
 }
 
 function turnForward(e) {
-    if (currentIndex !== 0 && historyForward.classList.contains("activated") === true) {
+    if (currentIndex !== 0 && historyForward.classList.contains("activated")) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
         currentIndex -= 1;
         context.putImageData(projectHistory[currentIndex], 0, 0);
-        historyBack.buttonAppearance();
-        historyForward.buttonAppearance();
+        updateHistoryButtons();
     }
 }
 
