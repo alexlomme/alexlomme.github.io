@@ -14,6 +14,22 @@ var historyForward = document.querySelector(".history-button.forward");
 var currentIndex = 0;
 var isOut;
 
+function updateHistoryButtons() {
+    if (currentIndex >= 1 && !historyForward.classList.contains("activated")) {
+        historyForward.classList.add("activated");
+    }
+    if (currentIndex === 0 && historyForward.classList.contains("activated")) {
+        historyForward.classList.remove("activated");
+    }
+
+    if (currentIndex <= projectHistory.length-1) {
+        historyBack.classList.add("activated");
+    }
+    if (currentIndex === projectHistory.length && historyBack.classList.contains("activated")) {
+        historyBack.classList.remove("activated");
+    }
+}
+
 myCanvas.width = document.body.clientWidth;
 
 myCanvas.addEventListener('mousedown', startDraw, false);
@@ -80,11 +96,12 @@ function drawLine(e) {
 }
 
 function stopDrawing(e) {
-    if (pressed === true && mousePressed === true) {
+    if (pressed && mousePressed) {
         context.closePath();
         mousePressed = false;
         isOut = false;
         projectHistory.unshift(context.getImageData(0, 0, myCanvas.width, myCanvas.height));
+        updateHistoryButtons();
     }
 }
 
@@ -121,21 +138,24 @@ function chooseSize(e) {
 }
 
 function turnBack(e) {
-    if (currentIndex < projectHistory.length) {
+    if (currentIndex < projectHistory.length && historyBack.classList.contains("activated")) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
         currentIndex += 1;
 
         if (currentIndex <= projectHistory.length - 1) {
             context.putImageData(projectHistory[currentIndex], 0, 0);
         }
+
+        updateHistoryButtons();
     }
 }
 
 function turnForward(e) {
-    if (currentIndex !== 0) {
+    if (currentIndex !== 0 && historyForward.classList.contains("activated")) {
         context.clearRect(0, 0, myCanvas.width, myCanvas.height);
         currentIndex -= 1;
         context.putImageData(projectHistory[currentIndex], 0, 0);
+        updateHistoryButtons();
     }
 }
 
@@ -165,3 +185,5 @@ function keyPressed(e) {
             break;
     }
 }
+
+

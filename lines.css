@@ -114,10 +114,6 @@ body {
     justify-content: center;
 }
 
-.released {
-    display: flex;
-}
-
 .dot-size-panel {
 
 }
@@ -163,4 +159,13 @@ body {
     padding: 0;
 
     border: 1px solid black;
+    opacity: 0.5;
+}
+
+.released {
+    display: flex;
+}
+
+.activated {
+    opacity: 1;
 }
