@@ -13,6 +13,10 @@ var historyBack = document.querySelector(".history-button.backward");
 var historyForward = document.querySelector(".history-button.forward");
 var currentIndex = 0;
 var isOut;
+var button2 = document.querySelector("#button_2");
+var confirmation = document.querySelector(".confirmation-window");
+var yesButton = document.querySelector(".yes-button");
+var noButton = document.querySelector(".no-button");
 
 myCanvas.width = document.body.clientWidth;
 
@@ -22,6 +26,9 @@ document.addEventListener('mouseup', stopDrawing, false);
 window.addEventListener('keydown', keyPressed, false);
 
 button1.addEventListener('click', toggleButtonState, false);
+button2.addEventListener('click', confirmationOpen, false);
+noButton.addEventListener('click', confirmationClose, false);
+yesButton.addEventListener('click', function(){ context.clearRect(0, 0, myCanvas.width, myCanvas.height); confirmationClose(); }, false);
 
 colourPanel.addEventListener('click', chooseColour, false);
 sizePanel.addEventListener('click', chooseSize, false);
@@ -164,4 +171,12 @@ function keyPressed(e) {
             toggleButtonState(e);
             break;
     }
+}
+
+function confirmationOpen() {
+    confirmation.classList.add("released");
+}
+
+function confirmationClose() {
+    confirmation.classList.remove("released");
 }

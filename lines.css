@@ -15,17 +15,24 @@ body {
 .button_1 {
     margin: 5px;
 
-    height: 30px;
-    width: 90px;
-
     border: none;
     border-radius: 10px;
 
-    background: #1499e0;
+    height: 30px;
+    width: 90px;
 
-    color: white;
     font-size: 11px;
     font-family: "Montserrat", sans-serif;
+}
+
+#button_1 {
+    background: #1499e0;
+    color: white;
+}
+
+#button_2 {
+    color: white;
+    background: #ff5044;
 }
 
 @media screen and (min-width: 600px) and (max-width: 1151px) {
@@ -36,6 +43,13 @@ body {
         border-radius: 14px;
 
         font-size: 16px;
+    }
+    .confirmation-window {
+        height: 120px;
+        width: 200px;
+
+        margin-top: -60px;
+        margin-left: -100px;
     }
 }
 
@@ -48,18 +62,34 @@ body {
 
         font-size: 23px;
     }
+
+    .confirmation-window {
+        height: 180px;
+        width: 300px;
+
+        margin-left: -150px;
+        margin-top: -90px;
+    }
 }
 
 .button_1:focus {
     outline: none;
 }
 
-.button_1:hover {
+#button_1:hover {
     background: #73efff;
 }
 
-.button_1:active {
+#button_1:active {
     background: #b3faff;
+}
+
+#button_2:hover {
+    background: #ff9485;
+}
+
+#button_2:active {
+    background: #ffbeb0;
 }
 
 #draw_space {
@@ -114,10 +144,6 @@ body {
     justify-content: center;
 }
 
-.released {
-    display: flex;
-}
-
 .dot-size-panel {
 
 }
@@ -163,4 +189,59 @@ body {
     padding: 0;
 
     border: 1px solid black;
+}
+
+.confirmation-window {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    position: fixed;
+    left: 50%;
+    top: 50%;
+
+    z-index: 100;
+
+    background: rgba(0,0,0,0.43);
+
+    border: rgba(0,0,0,0.43);
+    border-radius: 10px;
+}
+
+.yes-no-buttons-block {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.text {
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    color: white;
+}
+
+.released {
+    display: flex;
+}
+
+.yes-button, .no-button {
+    border: none;
+    border-radius: 10px;
+
+    height: 45px;
+    width: 90px;
+
+    color: rgba(0,0,0,0.43);
+    background: rgb(255, 255, 255)
+}
+
+.yes-button:hover, .no-button:hover {
+    background: rgba(206, 206, 206, 0.61);
+}
+
+.yes-button:active, .no-button:active {
+    background: rgba(206, 206, 206, 0.34);
 }
